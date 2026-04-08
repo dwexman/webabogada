@@ -38,6 +38,12 @@ export default function ServicesPreview() {
         "Acompañamiento cercano y defensa técnica en distintas etapas del proceso penal, con foco en libertad, derechos y resultados.",
       tag: "Acompañamiento integral",
     },
+    {
+      title: "Controles de detención y audiencias de formalización 24 / 7",
+      description:
+        "Asistencia y defensa penal inmediata en controles de detención y audiencias de formalización, con disponibilidad 24/7 y actuación estratégica desde el primer momento.",
+      tag: "Disponibilidad inmediata",
+    },
   ];
 
   return (

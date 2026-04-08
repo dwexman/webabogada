@@ -5,7 +5,7 @@ import WhatsAppFloat from "@/components/common/WhatsAppFloat";
 export const metadata = {
   title: "Servicios | Karina Osorio Rendón",
   description:
-    "Servicios de defensa penal privada en Chile: Ley 20.000, Ley de Armas, receptación, beneficios intrapenitenciarios, querellas y defensa penal estratégica.",
+    "Servicios de defensa penal privada en Chile: Ley 20.000, Ley de Armas, receptación, beneficios intrapenitenciarios, querellas, controles de detención, audiencias de formalización 24/7 y defensa penal estratégica.",
   keywords: [
     "servicios defensa penal",
     "Ley 20.000",
@@ -13,6 +13,8 @@ export const metadata = {
     "receptación",
     "beneficios intrapenitenciarios",
     "querellas penales",
+    "controles de detención",
+    "audiencias de formalización",
     "defensa penal estratégica",
     "abogada penalista chile",
     "defensa penal privada",
@@ -76,6 +78,17 @@ const services = [
       "Querellas penales",
       "Representación de víctimas",
       "Protección de derechos e intereses",
+    ],
+  },
+  {
+    title: "Controles de detención y audiencias de formalización 24/7",
+    subtitle: "Disponibilidad inmediata",
+    description:
+      "Asistencia y defensa penal inmediata en controles de detención y audiencias de formalización, con disponibilidad 24/7 y una actuación estratégica desde el primer momento del proceso.",
+    bullets: [
+      "Controles de detención",
+      "Audiencias de formalización",
+      "Disponibilidad inmediata 24/7",
     ],
   },
   {
