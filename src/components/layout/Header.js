@@ -77,6 +77,13 @@ export default function Header() {
             </Link>
 
             <Link
+              href="/casos-exito"
+              className="text-sm font-medium text-white/80 transition duration-300 hover:text-white"
+            >
+              Casos de éxito
+            </Link>
+
+            <Link
               href="/contacto"
               className="text-sm font-medium text-white/80 transition duration-300 hover:text-white"
             >
@@ -131,9 +138,9 @@ export default function Header() {
       </header>
 
       <div
-        className={`fixed inset-0 z-40 md:hidden transition-all duration-300 ${
+        className={`fixed inset-0 z-40 transition-all duration-300 md:hidden ${
           menuOpen
-            ? "pointer-events-auto bg-[rgba(3,10,20,0.45)] backdrop-blur-sm opacity-100"
+            ? "pointer-events-auto bg-[rgba(3,10,20,0.45)] opacity-100 backdrop-blur-sm"
             : "pointer-events-none opacity-0"
         }`}
         onClick={closeMenu}
@@ -188,6 +195,14 @@ export default function Header() {
               className="text-base font-medium text-white/90 transition duration-300 hover:text-white"
             >
               Servicios
+            </Link>
+
+            <Link
+              href="/casos-exito"
+              onClick={closeMenu}
+              className="text-base font-medium text-white/90 transition duration-300 hover:text-white"
+            >
+              Casos de éxito
             </Link>
 
             <Link
