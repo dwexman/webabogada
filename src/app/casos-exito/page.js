@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -14,6 +14,11 @@ const filters = [
   { id: "recursos", label: "Recursos" },
   { id: "constitucional", label: "Tribunal Constitucional" },
 ];
+
+const testimonialImages = Array.from(
+  { length: 13 },
+  (_, index) => `/images/testimonios/test${index + 1}.jpeg`
+);
 
 const cases = [
   {
@@ -81,7 +86,8 @@ const cases = [
     categories: ["libertad", "recursos"],
     tag: "Prisión preventiva",
     title: "Revocación de prisión preventiva",
-    court: "Juzgado de Garantía de Los Andes / Corte de Apelaciones de Valparaíso",
+    court:
+      "Juzgado de Garantía de Los Andes / Corte de Apelaciones de Valparaíso",
     reference: "RIT 1172-2026",
     result:
       "La Ilustrísima Corte de Apelaciones de Valparaíso revocó la prisión preventiva del representado, permitiendo que recuperara su libertad.",
@@ -120,12 +126,74 @@ const cases = [
 
 export default function CasosExitoPage() {
   const [selectedFilter, setSelectedFilter] = useState("todos");
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [isTestimonialModalOpen, setIsTestimonialModalOpen] = useState(false);
+
+  const totalTestimonials = testimonialImages.length;
 
   const filteredCases = useMemo(() => {
     if (selectedFilter === "todos") return cases;
 
     return cases.filter((item) => item.categories.includes(selectedFilter));
   }, [selectedFilter]);
+
+  const goToPreviousTestimonial = () => {
+    setCurrentTestimonial((prev) =>
+      prev === 0 ? totalTestimonials - 1 : prev - 1
+    );
+  };
+
+  const goToNextTestimonial = () => {
+    setCurrentTestimonial((prev) =>
+      prev === totalTestimonials - 1 ? 0 : prev + 1
+    );
+  };
+
+  const openTestimonialModal = () => {
+    setIsTestimonialModalOpen(true);
+  };
+
+  const closeTestimonialModal = () => {
+    setIsTestimonialModalOpen(false);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowLeft") {
+        setCurrentTestimonial((prev) =>
+          prev === 0 ? totalTestimonials - 1 : prev - 1
+        );
+      }
+
+      if (event.key === "ArrowRight") {
+        setCurrentTestimonial((prev) =>
+          prev === totalTestimonials - 1 ? 0 : prev + 1
+        );
+      }
+
+      if (event.key === "Escape" && isTestimonialModalOpen) {
+        setIsTestimonialModalOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [totalTestimonials, isTestimonialModalOpen]);
+
+  useEffect(() => {
+    if (isTestimonialModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isTestimonialModalOpen]);
 
   return (
     <>
@@ -147,10 +215,22 @@ export default function CasosExitoPage() {
 
               <p className="mt-6 max-w-2xl text-base leading-8 text-white/72 sm:text-lg">
                 Defensa penal estratégica en causas complejas, recursos ante
-                Cortes Superiores, requerimientos ante el Tribunal Constitucional,
-                recalificación de delitos, libertad condicional, prescripción de
-                penas y revisión de medidas cautelares.
+                Cortes Superiores, requerimientos ante el Tribunal
+                Constitucional, recalificación de delitos, libertad condicional,
+                prescripción de penas y revisión de medidas cautelares.
               </p>
+
+              <div className="mt-8 max-w-2xl rounded-[1.5rem] border border-[#C8A96A]/30 bg-white/[0.06] p-5 backdrop-blur">
+                <p className="text-base font-semibold leading-7 text-white sm:text-lg">
+                  ¿Estás ad portas de enfrentar un juicio oral?
+                </p>
+
+                <p className="mt-2 text-sm leading-7 text-white/72 sm:text-base">
+                  Nosotros te defendemos. Contamos con casos de éxito en
+                  prescripción de la acción penal, condenas, y representación en
+                  recursos de amparo y protección.
+                </p>
+              </div>
 
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
                 <a
@@ -213,8 +293,8 @@ export default function CasosExitoPage() {
 
                 <p className="mt-4 max-w-2xl text-base leading-7 text-[#071426]/68">
                   Estos son solo algunos casos de éxito. Entre muchos otros
-                  resultados, se destacan libertades recuperadas, recalificaciones,
-                  prescripciones y recursos acogidos.
+                  resultados, se destacan libertades recuperadas,
+                  recalificaciones, prescripciones y recursos acogidos.
                 </p>
               </div>
 
@@ -299,6 +379,99 @@ export default function CasosExitoPage() {
           </div>
         </section>
 
+        <section className="bg-[#F6F1E8] px-6 pb-16 text-[#071426] sm:pb-24">
+          <div className="mx-auto max-w-7xl">
+            <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.24em] text-[#9B7B3F] sm:tracking-[0.28em]">
+                  Testimonios
+                </span>
+
+                <h2 className="mt-4 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">
+                  Opiniones de personas que confiaron en la defensa
+                </h2>
+
+                <p className="mt-5 max-w-xl text-base leading-8 text-[#071426]/68">
+                  Algunos testimonios de clientes que recibieron orientación,
+                  defensa y acompañamiento en causas penales complejas.
+                </p>
+
+                <div className="mt-8 rounded-[2rem] border border-[#C8A96A]/30 bg-[#FFF9ED] p-6">
+                  <p className="text-lg font-semibold leading-8 text-[#071426]">
+                    Haz click sobre el testimonio para verlo más grande.
+                  </p>
+
+                  <p className="mt-2 text-sm leading-7 text-[#071426]/65">
+                    También puedes avanzar con las flechas laterales o usando
+                    las teclas izquierda y derecha del teclado.
+                  </p>
+                </div>
+              </div>
+
+              <div className="relative">
+                <div className="relative overflow-hidden rounded-[2rem] border border-[#071426]/10 bg-white p-3 shadow-[0_24px_70px_rgba(7,20,38,0.13)]">
+                  <button
+                    type="button"
+                    onClick={openTestimonialModal}
+                    aria-label={`Ampliar testimonio ${
+                      currentTestimonial + 1
+                    }`}
+                    className="group relative block w-full cursor-zoom-in overflow-hidden rounded-[1.5rem] bg-[#F6F1E8]"
+                  >
+                    <img
+                      src={testimonialImages[currentTestimonial]}
+                      alt={`Testimonio ${currentTestimonial + 1}`}
+                      className="h-[430px] w-full rounded-[1.5rem] object-contain transition duration-300 group-hover:scale-[1.02] sm:h-[560px]"
+                    />
+
+                    <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-[#071426]/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white opacity-0 transition duration-300 group-hover:opacity-100">
+                      Click para ampliar
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={goToPreviousTestimonial}
+                    aria-label="Ver testimonio anterior"
+                    className="absolute left-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-[#071426]/85 text-3xl font-light text-white shadow-[0_12px_30px_rgba(7,20,38,0.25)] transition duration-300 hover:bg-[#C8A96A] hover:text-[#071426]"
+                  >
+                    ‹
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={goToNextTestimonial}
+                    aria-label="Ver siguiente testimonio"
+                    className="absolute right-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-[#071426]/85 text-3xl font-light text-white shadow-[0_12px_30px_rgba(7,20,38,0.25)] transition duration-300 hover:bg-[#C8A96A] hover:text-[#071426]"
+                  >
+                    ›
+                  </button>
+                </div>
+
+                <div className="mt-5 flex flex-wrap justify-center gap-2">
+                  {testimonialImages.map((_, index) => (
+                    <button
+                      key={`testimonial-dot-${index}`}
+                      type="button"
+                      onClick={() => setCurrentTestimonial(index)}
+                      aria-label={`Ver testimonio ${index + 1}`}
+                      className={`h-2.5 rounded-full transition-all duration-300 ${
+                        currentTestimonial === index
+                          ? "w-8 bg-[#071426]"
+                          : "w-2.5 bg-[#071426]/25 hover:bg-[#C8A96A]"
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                <p className="mt-4 text-center text-sm font-semibold text-[#071426]/55">
+                  {currentTestimonial + 1} / {totalTestimonials}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="bg-[#071426] px-6 py-16 sm:py-20">
           <div className="mx-auto max-w-5xl rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 text-center shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:p-12">
             <span className="text-xs font-bold uppercase tracking-[0.24em] text-[#DCC08B] sm:tracking-[0.28em]">
@@ -334,6 +507,54 @@ export default function CasosExitoPage() {
             </div>
           </div>
         </section>
+
+        {isTestimonialModalOpen && (
+          <div
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#071426]/92 px-4 py-6 backdrop-blur-sm"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Testimonio ${currentTestimonial + 1} ampliado`}
+          >
+            <button
+              type="button"
+              onClick={closeTestimonialModal}
+              aria-label="Cerrar testimonio ampliado"
+              className="absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-2xl text-white transition duration-300 hover:bg-[#C8A96A] hover:text-[#071426]"
+            >
+              ×
+            </button>
+
+            <button
+              type="button"
+              onClick={goToPreviousTestimonial}
+              aria-label="Ver testimonio anterior"
+              className="absolute left-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-white/10 text-4xl font-light text-white transition duration-300 hover:bg-[#C8A96A] hover:text-[#071426] sm:left-8"
+            >
+              ‹
+            </button>
+
+            <div className="max-h-[88vh] w-full max-w-5xl">
+              <img
+                src={testimonialImages[currentTestimonial]}
+                alt={`Testimonio ${currentTestimonial + 1}`}
+                className="mx-auto max-h-[82vh] w-full rounded-[1.5rem] object-contain shadow-[0_28px_90px_rgba(0,0,0,0.38)]"
+              />
+
+              <p className="mt-4 text-center text-sm font-semibold text-white/70">
+                Testimonio {currentTestimonial + 1} de {totalTestimonials}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={goToNextTestimonial}
+              aria-label="Ver siguiente testimonio"
+              className="absolute right-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-white/10 text-4xl font-light text-white transition duration-300 hover:bg-[#C8A96A] hover:text-[#071426] sm:right-8"
+            >
+              ›
+            </button>
+          </div>
+        )}
       </main>
 
       <Footer />
